@@ -20,8 +20,12 @@ class CAHNRSWP_Plugin_Extension_Programs {
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ), 11 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'edit_form_after_title', array( $this, 'edit_form_after_title' ) );
 		add_action( 'save_post_extension_program', array( $this, 'save_post' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+		add_filter( 'template_include', array( $this, 'template_include' ), 1 );
 	}
 
 	/**
@@ -30,9 +34,9 @@ class CAHNRSWP_Plugin_Extension_Programs {
 	public function init() {
 		register_post_type( $this->post_type,
     	array(
-				'label'         => 'Extension Programs',
-				'description'   => '',
-				'labels'        => array(
+				'label'             => 'Extension Programs',
+				'description'       => '',
+				'labels'            => array(
 					'name'               => 'Programs',
 					'singular_name'      => 'Program',
 					'all_items'          => 'All Programs',
@@ -44,30 +48,31 @@ class CAHNRSWP_Plugin_Extension_Programs {
 					'not_found'          => 'No programs found',
 					'not_found_in_trash' => 'No programs found in Trash',
 				),
-				'public'        => true,
-				'menu_position' => 5,
-				'menu_icon'     => 'dashicons-clipboard',
-				'supports'      => array(
+				'public'            => true,
+				'show_in_nav_menus' => false,
+				'menu_position'     => 5,
+				'menu_icon'         => 'dashicons-clipboard',
+				'supports'          => array(
 					'title',
 					'editor',
 					'author',
 					'thumbnail',
 					'revisions',
 				),
-				/*'taxonomies'    => array(
+				/*'taxonomies'        => array(
 					'topics',
-				),
-				'has_archive'   => true,
-				'rewrite'       => array(
+				),*/
+				'has_archive'       => true,
+				'rewrite'           => array(
 					'slug'       => 'programs',
 					'with_front' => false
-				),*/
+				),
 			)
 		);
 	}
 
 	/**
-	 * Enqueue scripts and styles for the admin.
+	 * Enqueue scripts and styles for use on the back end.
 	 *
 	 * @param int $hook Hook suffix for the current admin page.
 	 */
@@ -76,6 +81,42 @@ class CAHNRSWP_Plugin_Extension_Programs {
 		if ( ( 'post-new.php' === $hook || 'post.php' === $hook ) && $this->post_type === $screen->post_type ) {
 			wp_enqueue_style( 'programs-admin', plugins_url( 'css/admin-programs.css', __FILE__ ), array() );
 		}
+	}
+
+	/**
+	 * Add options page link to the menu.
+	 */
+	public function admin_menu() {
+		add_submenu_page( 'edit.php?post_type=' . $this->post_type, 'Programs Settings', 'Settings', 'manage_options', 'settings', array( $this, 'programs_settings_page' ) );
+	}
+
+	/**
+	 * Options page settings.
+	 */
+	public function admin_init() {
+		register_setting( 'programs_options', 'programs_archive_text' );
+	}
+
+	/**
+	 * Options page content.
+	 */
+	public function programs_settings_page() {
+		?>
+		<div class="wrap">
+			<h2>Programs Settings</h2>
+			<form method="post" action="options.php">
+				<?php settings_fields( 'programs_options' ); ?>
+				<?php do_settings_sections( 'programs_options' ); ?>
+				<table class="form-table">
+					<tr valign="top">
+						<th scope="row">Archive Introductory Text</th>
+						<td><?php wp_editor( wp_kses_post( get_option( 'programs_archive_text' ) ), 'programs_archive_text' ); ?></td>
+					</tr>
+				</table>
+				<?php submit_button(); ?>
+			</form>
+		</div>
+		<?php
 	}
 
 	/**
@@ -96,7 +137,7 @@ class CAHNRSWP_Plugin_Extension_Programs {
 	}
 
 	/**
-	 * Save data associated with an Impact Report.
+	 * Save custom data associated with the post.
 	 *
 	 * @param int $post_id
 	 *
@@ -122,7 +163,6 @@ class CAHNRSWP_Plugin_Extension_Programs {
 			return $post_id;
 		}
 
-		// Sanitize and save data.
 		if ( isset( $_POST['program_url'] ) && $_POST['program_url'] != '' ) {
 			update_post_meta( $post_id, '_program_url', sanitize_text_field( $_POST['program_url'] ) );
 		} else {
@@ -131,6 +171,29 @@ class CAHNRSWP_Plugin_Extension_Programs {
 
 	}
 
+	/**
+	 * Enqueue scripts and styles for use on the front end.
+	 */
+	public function wp_enqueue_scripts() {
+		if ( is_post_type_archive( $this->post_type ) ) {
+			wp_enqueue_style( 'programs', plugins_url( 'css/programs.css', __FILE__ ), array( 'spine-theme' ) );
+			wp_enqueue_script( 'programs', plugins_url( 'js/programs.js', __FILE__ ), array( 'jquery' ), '', true );
+		}
+	}
+
+	/**
+	 * Add templates for post type.
+	 *
+	 * @param string $template
+	 *
+	 * @return string template path
+	 */
+	public function template_include( $template ) {
+		if ( is_post_type_archive( $this->post_type ) ) {
+			$template = plugin_dir_path( __FILE__ ) . 'templates/index.php';
+		}
+		return $template;
+	}
 
 }
 

@@ -1,0 +1,29 @@
+.mobile-help-text {
+	display: none;
+}
+.ext-preview-stopper {
+	background-color: transparent;
+	bottom: 0;
+	margin: 0;
+	position: absolute;
+}
+#ext-program-preview .article-title h4 {
+	padding-top: 0;
+}
+.ext-program-description {
+	display: block;
+	padding: 1rem 0 1rem 1rem;
+}
+.ext-program-description img {
+	margin-top: 0.5rem;
+}
+
+@media only screen and (max-width: 693px) {
+	.desktop-help-text,
+	#ext-program-preview {
+		display: none;
+	}
+	.mobile-help-text {
+		display: block;
+	}
+}
