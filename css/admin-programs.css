@@ -1,0 +1,9 @@
+#edit-slug-box {
+	display: none;
+}
+#titlediv {
+	margin-bottom: 12px;
+}
+#poststuff label[for=program_url] h3 {
+	padding-left: 0;
+}
