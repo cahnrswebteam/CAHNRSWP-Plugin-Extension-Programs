@@ -16,23 +16,48 @@
 
 	<section class="row side-right gutter pad-ends full-bleed gray-darker-back">
 
-		<div class="column one">
+		<div class="column one program-list">
 
 			<?php
 				global $query_string;
 				query_posts( $query_string . '&posts_per_page=-1&orderby=name&order=asc' );
 				if ( have_posts() ) :
-				?>
-					<ul id="ext-programs">
-					<?php while ( have_posts() ) : the_post(); ?>
+					while ( have_posts() ) : the_post();
+					?>
 						<?php
-							$url = get_post_meta( get_the_ID(), '_program_url', true );
-							$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+							$image_class = '';
+							$image_style = '';
+							if ( has_post_thumbnail() ) {
+								$image_class = ' has-image';
+								$image_array = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
+								$image_style = ' style="background-image: url(' . esc_url( $image_array[0] ) . ');"';
+							}
 						?>
-						<li><a href="<?php echo esc_url( $url ); ?>" data-desc="<?php the_content(); ?>" data-img="<?php esc_attr_e( $image[0] ); ?>"><?php the_title(); ?></a></li>
-					<?php endwhile; ?>
-					</ul>
-				<?php endif; ?>
+						<dl class="<?php echo $image_class; ?>"<?php echo $image_style; ?>>
+							<dt>
+								<h4><?php the_title(); ?></h4>
+							</dt>
+							
+							<dd>
+								<?php
+									the_content();
+									$url = get_post_meta( get_the_ID(), '_program_url', true );
+									if ( $url ) {
+									?>
+										<p class="more-button center"><a title="Visit the <?php the_title(); ?> website" href="<?php echo esc_url( $url ); ?>">Visit the website</a></p>
+									<?php
+									}
+									/*if ( has_post_thumbnail() ) {
+										the_post_thumbnail( 'medium' );
+									}*/
+								?>
+							</dd>
+						</dl>
+					<?php
+					endwhile;
+				endif;
+			?>
+
 		</div><div class="column two">
 
 			<h2>Topics</h2>
@@ -42,47 +67,16 @@
 				?>
 					<ul class="browse-terms topics">
 					<?php foreach ( $topics as $topic ) : ?>
-						<li class="topic-'<?php echo $topic->slug; ?>">
+						<li class="topic-<?php echo $topic->slug; ?>">
 							<a href="<?php echo get_term_link( $topic ); ?>" data-type="topic" data-slug="<?php echo $topic->slug; ?>" data-name="<?php echo $topic->name; ?>"><?php echo $topic->name; ?></a>
 						</li>
 					<?php endforeach; ?>
 					</ul>
 			<?php endif; ?>
 
-			<div id="ext-program-preview">
-
-				<?php
-					$featured = new WP_Query( 'post_type=extension_program&orderby=rand&posts_per_page=1' );
-					if ( $featured->have_posts() ) :
-						while ( $featured->have_posts() ) : $featured->the_post();
-						?>
-							<?php $url = get_post_meta( get_the_ID(), '_program_url', true ); ?>
-							<header class="article-title">
-								<h4>
-									<a title="Go to the <?php the_title(); ?> website" href="<?php echo esc_url( $url ); ?>"><?php the_title(); ?> <span class="dashicons dashicons-external"></span></a>
-								</h4>
-							</header>
-							<div class="article-summary">
-								<?php the_content(); ?>
-								<?php
-									if ( has_post_thumbnail() ) {
-										the_post_thumbnail( 'medium' );
-									}
-								?>
-							</div>
-						<?php
-						endwhile;
-					endif;
-					wp_reset_postdata();
-				?>
-
-			</div>
-
 		</div>
 
 	</section>
-
-	<hr class="ext-preview-stopper" />
 
 </main>
 

@@ -1,29 +1,131 @@
-.mobile-help-text {
-	display: none;
+.gutter .column.program-list {
+	padding: 0 1rem 2rem 0;
 }
-.ext-preview-stopper {
+.program-list dl:nth-of-type(odd) {
+	background-image: -moz-linear-gradient(left, rgba(70,78,84,0) 0%, rgba(70,78,84,1) 100%);
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(70,78,84,0)), color-stop(100%,rgba(70,78,84,1)));
+	background-image: -webkit-linear-gradient(left, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
+	background-image: -o-linear-gradient(left, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
+	background-image: -ms-linear-gradient(left, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
+	background-image: linear-gradient(to right, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
+}
+.program-list dl.has-image dt {
+	background-color: rgba( 42, 48, 51, 0.75 );
+}
+.program-list dl.has-image.disclosed dt,
+.program-list dl.has-image dd {
+	background-color: rgba( 42, 48, 51, 0.5 );
+}
+.program-list dl:nth-of-type(odd).has-image dt {
+	background-color: rgba( 70, 78, 84, 0.75 );
+}
+.program-list dl:nth-of-type(odd).has-image.disclosed dt,
+.program-list dl:nth-of-type(odd).has-image dd {
+	background-color: rgba( 70, 78, 84, 0.5 );
+}
+.program-list dl.has-image:not(.disclosed) dt:hover,
+.program-list dl:nth-of-type(odd).has-image:not(.disclosed) dt:hover {
 	background-color: transparent;
-	bottom: 0;
-	margin: 0;
-	position: absolute;
 }
-#ext-program-preview .article-title h4 {
-	padding-top: 0;
+.program-list dl {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin-bottom: 1px;
 }
-.ext-program-description {
+.program-list dl dt {
+	cursor: pointer;
 	display: block;
-	padding: 1rem 0 1rem 1rem;
+	padding: 0.7rem 0.75rem;
 }
-.ext-program-description img {
-	margin-top: 0.5rem;
+.program-list dl dt h4 {
+	background: url(http://m1.wpdev.cahnrs.wsu.edu/global/images/plus-white.svg) right center no-repeat;
+	background-size: 13px 13px;
+	font-size: 0.9rem;
+	font-weight: normal;
+	padding: 0 1rem 0 1.25rem;
+}
+.program-list dl.disclosed dt h4 {
+	background-image: url(http://m1.wpdev.cahnrs.wsu.edu/global/images/x-white.svg);
+	font-weight: bold;
+}
+.program-list dl dd {
+	display: block;
+	padding: 1rem 2rem;
 }
 
-@media only screen and (max-width: 693px) {
-	.desktop-help-text,
-	#ext-program-preview {
-		display: none;
-	}
-	.mobile-help-text {
-		display: block;
+.topic-4-h > a:hover,
+.topic-4-h .active {
+	background-color: #009849;
+}
+.topic-agricultural-production > a:hover,
+.topic-agricultural-production .active {
+	background: #826229;
+}
+.topic-communities-and-economic-development > a:hover,
+.topic-communities-and-economic-development .active {
+	background: #b67233;
+}
+.topic-family-and-home > a:hover,
+.topic-family-and-home .active {
+	background: #4f868e;
+}
+.topic-food-and-nutrition > a:hover,
+.topic-food-and-nutrition .active {
+	background: #c69214;
+}
+.topic-gardening > a:hover,
+.topic-gardening .active {
+	background: #7b451d;
+}
+.topic-natural-resources > a:hover,
+.topic-natural-resources .active {
+	background: #8f7e35;
+}
+.browse-terms {
+	padding: 0;
+	list-style: none;
+}
+.browse-terms.topics li {
+	border-style: solid;
+	border-width: 1px;
+	margin-bottom: 7px;
+	padding: 0;
+}
+.browse-terms.topics li a {
+	display: block;
+	padding: 0.3rem 0.5rem;
+	text-align: center;
+	-webkit-transition: background-color .2s linear;
+	-moz-transition:    background-color .2s linear;
+	-o-transition:      background-color .2s linear;
+	transition:         background-color .2s linear;
+}
+.topic-4-h {
+	border-color: #009e60;
+	border-color: #009849;
+}
+.topic-agricultural-production {
+	border-color: #826229;
+}
+.topic-communities-and-economic-development {
+	border-color: #b67233;
+}
+.topic-family-and-home {
+	border-color: #4f868e;
+}
+.topic-food-and-nutrition {
+	border-color: #c69214;
+}
+.topic-gardening {
+	border-color: #7b451d;
+}
+.topic-natural-resources {
+	border-color: #8f7e35;
+}
+
+@media only screen and (max-width:693px) {
+	.side-right.gutter .column.one.program-list {
+		padding: 0 0 2rem 0;
 	}
 }

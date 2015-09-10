@@ -19,6 +19,7 @@ class CAHNRSWP_Plugin_Extension_Programs {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ), 11 );
+		add_action( 'init', array( $this, 'add_taxonomies' ), 12 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
@@ -26,6 +27,8 @@ class CAHNRSWP_Plugin_Extension_Programs {
 		add_action( 'save_post_extension_program', array( $this, 'save_post' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 		add_filter( 'template_include', array( $this, 'template_include' ), 1 );
+		add_action( 'wp_ajax_nopriv_extension_programs_request', array( $this, 'ajax_post_request' ) );
+		add_action( 'wp_ajax_extension_programs_request', array( $this, 'ajax_post_request' ) );
 	}
 
 	/**
@@ -59,9 +62,6 @@ class CAHNRSWP_Plugin_Extension_Programs {
 					'thumbnail',
 					'revisions',
 				),
-				/*'taxonomies'        => array(
-					'topics',
-				),*/
 				'has_archive'       => true,
 				'rewrite'           => array(
 					'slug'       => 'programs',
@@ -69,6 +69,13 @@ class CAHNRSWP_Plugin_Extension_Programs {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Add support for taxonomies.
+	 */
+	public function add_taxonomies() {
+		register_taxonomy_for_object_type( 'topic', $this->post_type );
 	}
 
 	/**
@@ -178,6 +185,7 @@ class CAHNRSWP_Plugin_Extension_Programs {
 		if ( is_post_type_archive( $this->post_type ) ) {
 			wp_enqueue_style( 'programs', plugins_url( 'css/programs.css', __FILE__ ), array( 'spine-theme' ) );
 			wp_enqueue_script( 'programs', plugins_url( 'js/programs.js', __FILE__ ), array( 'jquery' ), '', true );
+			wp_localize_script( 'programs', 'programs', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		}
 	}
 
@@ -193,6 +201,70 @@ class CAHNRSWP_Plugin_Extension_Programs {
 			$template = plugin_dir_path( __FILE__ ) . 'templates/index.php';
 		}
 		return $template;
+	}
+
+	/**
+	 * AJAX post requests.
+	 */
+	public function ajax_post_request() {
+
+		$ajax_args = array(
+			'post_type'      => $this->post_type,
+			'posts_per_page' => -1,
+			'orderby'        => 'name',
+			'order'          => 'asc',
+		);
+
+		if ( $_POST['type'] ) {
+			$ajax_args['tax_query'] = array(
+				array(
+					'taxonomy' => $_POST['type'],
+					'field'    => 'slug',
+					'terms'    => $_POST['term'],
+				),
+			);
+		}
+
+		$posts = new WP_Query( $ajax_args );
+    if ( $posts->have_posts() ) {
+			while ( $posts->have_posts() ) : $posts->the_post();
+			?>
+				<?php
+					$image = '';
+					if ( has_post_thumbnail() ) {
+						$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+					}
+				?>
+				<dl<?php
+        	if ( $image ) {
+						echo ' class="has-image" style="background-image: url(' . esc_url( $image[0] ) . ');"';
+					}
+				?>>
+					<dt>
+						<h4><?php the_title(); ?></h4>
+					</dt>
+					<dd style="display: none;">
+						<?php
+							the_content();
+							$url = get_post_meta( get_the_ID(), '_program_url', true );
+							if ( $url ) {
+							?>
+								<p class="more-button center"><a title="Visit the <?php the_title(); ?> website" href="<?php echo esc_url( $url ); ?>">Visit the website</a></p>
+							<?php
+							}
+							/*if ( has_post_thumbnail() ) {
+								the_post_thumbnail( 'medium' );
+							}*/
+						?>
+					</dd>
+				</dl>
+			<?php
+      endwhile;
+		} else {
+			echo 'Sorry, no Extension Programs match the criteria.';
+		}
+
+		exit;
 	}
 
 }
