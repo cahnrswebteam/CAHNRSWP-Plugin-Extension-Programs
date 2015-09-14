@@ -183,7 +183,7 @@ class CAHNRSWP_Plugin_Extension_Programs {
 	 */
 	public function wp_enqueue_scripts() {
 		if ( is_post_type_archive( $this->post_type ) ) {
-			wp_enqueue_style( 'programs', plugins_url( 'css/programs.css', __FILE__ ), array( 'spine-theme' ) );
+			wp_enqueue_style( 'programs', plugins_url( 'css/programs.css', __FILE__ ), array( 'spine-theme', 'cahnrs' ) );
 			wp_enqueue_script( 'programs', plugins_url( 'js/programs.js', __FILE__ ), array( 'jquery' ), '', true );
 			wp_localize_script( 'programs', 'programs', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		}
@@ -228,37 +228,7 @@ class CAHNRSWP_Plugin_Extension_Programs {
 		$posts = new WP_Query( $ajax_args );
     if ( $posts->have_posts() ) {
 			while ( $posts->have_posts() ) : $posts->the_post();
-			?>
-				<?php
-					$image = '';
-					if ( has_post_thumbnail() ) {
-						$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-					}
-				?>
-				<dl<?php
-        	if ( $image ) {
-						echo ' class="has-image" style="background-image: url(' . esc_url( $image[0] ) . ');"';
-					}
-				?>>
-					<dt>
-						<h4><?php the_title(); ?></h4>
-					</dt>
-					<dd style="display: none;">
-						<?php
-							the_content();
-							$url = get_post_meta( get_the_ID(), '_program_url', true );
-							if ( $url ) {
-							?>
-								<p class="more-button center"><a title="Visit the <?php the_title(); ?> website" href="<?php echo esc_url( $url ); ?>">Visit the website</a></p>
-							<?php
-							}
-							/*if ( has_post_thumbnail() ) {
-								the_post_thumbnail( 'medium' );
-							}*/
-						?>
-					</dd>
-				</dl>
-			<?php
+				load_template( dirname( __FILE__ ) . '/templates/post.php', false );
       endwhile;
 		} else {
 			echo 'Sorry, no Extension Programs match the criteria.';

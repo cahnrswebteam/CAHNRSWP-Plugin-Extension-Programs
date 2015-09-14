@@ -1,11 +1,5 @@
 jQuery(document).ready( function($) {
 
-	// Accordion
-	$('.program-list dl dd').hide();
-	$('.program-list').on( 'click', 'dt', function() {
-		$(this).next('dd').toggle().parents('dl').toggleClass('disclosed');
-	})
-
 	// Term filter
 	$( '.browse-terms' ).on( 'click', 'a', function( event ) {
 
@@ -33,7 +27,7 @@ jQuery(document).ready( function($) {
 					term.text( 'Loading...' );
 				},
 				success: function( html ) {
-					$( '.program-list' ).html( html );
+					$( '.program-list' ).addClass( 'filtered' ).html( html );
 					term.text( term.data( 'name' ) );
 				}
 			})

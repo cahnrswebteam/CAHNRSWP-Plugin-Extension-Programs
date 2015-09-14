@@ -1,59 +1,65 @@
 .gutter .column.program-list {
 	padding: 0 1rem 2rem 0;
 }
-.program-list dl:nth-of-type(odd) {
-	background-image: -moz-linear-gradient(left, rgba(70,78,84,0) 0%, rgba(70,78,84,1) 100%);
-	background-image: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(70,78,84,0)), color-stop(100%,rgba(70,78,84,1)));
-	background-image: -webkit-linear-gradient(left, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
-	background-image: -o-linear-gradient(left, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
-	background-image: -ms-linear-gradient(left, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
-	background-image: linear-gradient(to right, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
-}
-.program-list dl.has-image dt {
-	background-color: rgba( 42, 48, 51, 0.75 );
-}
-.program-list dl.has-image.disclosed dt,
-.program-list dl.has-image dd {
-	background-color: rgba( 42, 48, 51, 0.5 );
-}
-.program-list dl:nth-of-type(odd).has-image dt {
-	background-color: rgba( 70, 78, 84, 0.75 );
-}
-.program-list dl:nth-of-type(odd).has-image.disclosed dt,
-.program-list dl:nth-of-type(odd).has-image dd {
-	background-color: rgba( 70, 78, 84, 0.5 );
-}
-.program-list dl.has-image:not(.disclosed) dt:hover,
-.program-list dl:nth-of-type(odd).has-image:not(.disclosed) dt:hover {
-	background-color: transparent;
-}
-.program-list dl {
+.program-list .cahnrs-accordion {
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	margin-bottom: 1px;
+	padding: 0;
 }
-.program-list dl dt {
-	cursor: pointer;
-	display: block;
-	padding: 0.7rem 0.75rem;
+.program-list .cahnrs-accordion:nth-of-type(odd) {
+	background-color: transparent;
+	background-image: linear-gradient(to right, rgba(70,78,84,0) 0%,rgba(70,78,84,1) 100%);
 }
-.program-list dl dt h4 {
-	background: url(http://m1.wpdev.cahnrs.wsu.edu/global/images/plus-white.svg) right center no-repeat;
-	background-size: 13px 13px;
+.program-list .cahnrs-accordion:nth-of-type(even) {
+	background-color: transparent;
+}
+.program-list .cahnrs-accordion dt {
+	background: rgb(42,48,51);
+	padding: 0;
+}
+.program-list .cahnrs-accordion.disclosed dt,
+.program-list dl dd {
+	background: rgba(42,48,51,0.6);
+}
+.program-list dl:nth-of-type(odd) dt {
+	background: linear-gradient(to right, rgba(42,48,51,1) 0%,rgba(70,78,84,1) 100%);
+}
+.program-list dl:nth-of-type(odd).disclosed dt,
+.program-list dl:nth-of-type(odd) dd {
+	background: rgba(70,78,84,0.6);
+}
+.program-list .cahnrs-accordion dt h2 {
+	background: url(http://m1.wpdev.cahnrs.wsu.edu/global/images/plus-white.svg) right 1rem center no-repeat;
+	color: #fff;
 	font-size: 0.9rem;
 	font-weight: normal;
-	padding: 0 1rem 0 1.25rem;
+	padding: 0.7rem 1rem 0.7rem 2rem;
 }
-.program-list dl.disclosed dt h4 {
+.program-list .cahnrs-accordion.disclosed dt h2 {
 	background-image: url(http://m1.wpdev.cahnrs.wsu.edu/global/images/x-white.svg);
 	font-weight: bold;
 }
-.program-list dl dd {
+.program-list .cahnrs-accordion dd {
 	display: block;
 	padding: 1rem 2rem;
+	width: auto;
 }
-
+.program-list.filtered .cahnrs-accordion dd {
+	display: none;
+}
+.program-list .more-button a {
+	padding-right: 2rem;
+}
+.program-list .more-button a:after {
+	content: "↪";
+	font-family: Spine-Icons;
+	font-weight: normal;
+	margin-left: 3px;
+	position: absolute;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
 .topic-4-h > a:hover,
 .topic-4-h .active {
 	background-color: #009849;
