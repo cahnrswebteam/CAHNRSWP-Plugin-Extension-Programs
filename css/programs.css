@@ -1,3 +1,7 @@
+h2 {
+	font-weight: normal;
+	text-transform: uppercase;
+}
 .programs a {
 	color: #fff;
 }
