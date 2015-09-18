@@ -14,7 +14,7 @@
 
 	</section>
 
-	<section class="row side-right gutter pad-ends full-bleed gray-darker-back">
+	<section class="row side-right gutter pad-ends programs full-bleed gray-darker-back gray-er-text">
 
 		<div class="column one program-list">
 
@@ -28,7 +28,9 @@
 				endif;
 			?>
 
-		</div><div class="column two">
+		</div>
+
+		<div class="column two">
 
 			<h2>Topics</h2>
 			<?php
