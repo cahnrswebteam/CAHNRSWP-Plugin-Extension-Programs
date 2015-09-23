@@ -1,13 +1,11 @@
 <?php
-$image_class = '';
 $image_style = '';
 if ( has_post_thumbnail() ) {
-	$image_class = ' has-image';
 	$image_array = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
 	$image_style = ' style="background-image: url(' . esc_url( $image_array[0] ) . ');"';
 }
 ?>
-<dl class="cahnrs-accordion<?php echo $image_class; ?>"<?php echo $image_style; ?>>
+<dl class="cahnrs-accordion"<?php echo $image_style; ?>>
 
 	<dt>
 		<h2><?php the_title(); ?></h2>

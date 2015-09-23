@@ -55,15 +55,11 @@ h2 {
 .program-list.filtered .cahnrs-accordion dd {
 	display: none;
 }
-.program-list .more-button a {
-	padding-right: 2rem;
-}
 .program-list .more-button a:after {
 	content: "↪";
 	font-family: Spine-Icons;
 	font-weight: normal;
 	margin-left: 3px;
-	position: absolute;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
