@@ -17,7 +17,7 @@ if ( has_post_thumbnail() ) {
 			$url = get_post_meta( get_the_ID(), '_program_url', true );
 			if ( $url ) {
 			?>
-				<p class="more-button center"><a title="Visit the <?php the_title(); ?> website" href="<?php echo esc_url( $url ); ?>" target="_blank">Visit the website</a></p>
+				<p class="more-button center white"><a title="Visit the <?php the_title(); ?> website" href="<?php echo esc_url( $url ); ?>" target="_blank">Visit the website</a></p>
 			<?php
 			}
 		?>

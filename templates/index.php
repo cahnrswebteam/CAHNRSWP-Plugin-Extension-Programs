@@ -20,7 +20,7 @@
 
 			<?php
 				global $query_string;
-				query_posts( $query_string . '&posts_per_page=-1&orderby=name&order=asc' );
+				query_posts( $query_string . '&posts_per_page=-1&orderby=title&order=ASC' );
 				if ( have_posts() ) :
 					while ( have_posts() ) : the_post();
 						load_template( dirname( __FILE__ ) . '/post.php', false );

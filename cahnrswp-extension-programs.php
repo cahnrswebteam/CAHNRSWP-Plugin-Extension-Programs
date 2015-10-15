@@ -39,6 +39,11 @@ class CAHNRSWP_Plugin_Extension_Programs {
     	array(
 				'label'             => 'Extension Programs',
 				'description'       => '',
+				'public'            => true,
+				'show_in_nav_menus' => false,
+				'menu_position'     => 5,
+				'menu_icon'         => 'dashicons-clipboard',
+				'has_archive'       => true,
 				'labels'            => array(
 					'name'               => 'Programs',
 					'singular_name'      => 'Program',
@@ -51,10 +56,6 @@ class CAHNRSWP_Plugin_Extension_Programs {
 					'not_found'          => 'No programs found',
 					'not_found_in_trash' => 'No programs found in Trash',
 				),
-				'public'            => true,
-				'show_in_nav_menus' => false,
-				'menu_position'     => 5,
-				'menu_icon'         => 'dashicons-clipboard',
 				'supports'          => array(
 					'title',
 					'editor',
@@ -62,7 +63,6 @@ class CAHNRSWP_Plugin_Extension_Programs {
 					'thumbnail',
 					'revisions',
 				),
-				'has_archive'       => true,
 				'rewrite'           => array(
 					'slug'       => 'programs',
 					'with_front' => false
@@ -76,6 +76,7 @@ class CAHNRSWP_Plugin_Extension_Programs {
 	 */
 	public function add_taxonomies() {
 		register_taxonomy_for_object_type( 'topic', $this->post_type );
+		register_taxonomy_for_object_type( 'post_tag', $this->post_type );
 	}
 
 	/**
