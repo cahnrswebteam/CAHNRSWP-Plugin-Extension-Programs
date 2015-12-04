@@ -32,7 +32,7 @@
 
 		<div class="column two">
 
-			<h2>Topics</h2>
+			<h2>Filter by Topic</h2>
 			<?php
       	$topics = get_terms( 'topic', array( 'parent' => 0 ) );
 				if ( ! empty( $topics ) && ! is_wp_error( $topics ) ) :
